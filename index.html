@@ -63,4 +63,257 @@ h3 {
 .en { display: block; }
 .cn { display: none; }
 
-/* ===== Course Units =*
+/* ===== Course Units ===== */
+.unit {
+  padding: 1.5rem;
+  margin-top: 2rem;
+  background: #f8fafc;
+  border-left: 5px solid #1e3a8a;
+}
+
+/* ===== Interactive Zone ===== */
+.interactive {
+  margin: 3rem 0;
+  padding: 1.8rem;
+  border: 2px solid #1e3a8a;
+  border-radius: 12px;
+  background: #eef2ff;
+}
+
+.interactive textarea {
+  width: 100%;
+  min-height: 90px;
+  font-size: 1rem;
+  margin-top: 0.6rem;
+}
+
+.output {
+  margin-top: 1.2rem;
+  padding: 1rem;
+  background: #ffffff;
+  border-left: 4px solid #1e3a8a;
+  white-space: pre-wrap;
+}
+
+/* ===== Timeline ===== */
+.timeline {
+  border-left: 4px solid #1e3a8a;
+  padding-left: 1.2rem;
+  margin-top: 1.5rem;
+}
+
+.timeline li {
+  margin-bottom: 0.8rem;
+}
+
+footer {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>History of the English Language</h1>
+  <small>英语史在线精品课程 · 学术导览</small>
+  <small>由龚凤乾教授精心设计</small>
+</header>
+
+<main>
+
+<div class="toggle">
+  Language:
+  <button onclick="setLang('en')">English</button>
+  <button onclick="setLang('cn')">中文</button>
+</div>
+
+<!-- ================= Unit 0 ================= -->
+<section class="unit">
+<h2>Unit 0 · Introduction / 导论</h2>
+
+<p class="en">
+The history of English is shaped by migration, conquest, language contact,
+and social change. This course presents English as a historical process,
+not a fixed system.
+</p>
+
+<p class="cn">
+英语并非一种静态系统，而是在迁徙、征服、语言接触与社会变迁中逐步形成的历史过程。
+本课程以学术研究为基础，系统呈现英语的发展路径。
+</p>
+</section>
+
+<!-- ================= Timeline ================= -->
+<section>
+<h2>Timeline of the English Language / 英语发展时间轴</h2>
+
+<ul class="timeline">
+  <li><strong>Before 450</strong> — Celtic languages & Roman Britain</li>
+  <li><strong>450–1100</strong> — Old English (Anglo-Saxon period)</li>
+  <li><strong>1066</strong> — Norman Conquest</li>
+  <li><strong>1100–1500</strong> — Middle English</li>
+  <li><strong>1500–1700</strong> — Early Modern English (Great Vowel Shift)</li>
+  <li><strong>1700–present</strong> — Modern & Global English</li>
+</ul>
+
+<p class="cn">
+该时间轴展示了英语从凯尔特—拉丁背景，经日耳曼化、法语化，
+再到现代全球化英语的发展过程。
+</p>
+</section>
+
+<!-- ================= Interactive Zone ================= -->
+<section class="interactive">
+<h2>Interactive Learning Zone / 互动学习区</h2>
+
+<p class="en">
+Ask any academic question about the history of English.
+</p>
+<p class="cn">
+你可以就英语史的任何问题向 AI 助教提问，或使用语音输入。
+</p>
+
+<textarea id="question"
+placeholder="e.g. What is the Great Vowel Shift? / 什么是元音大推移？"></textarea>
+
+<div>
+  <button onclick="askAI()">🤖 Ask DeepSeek</button>
+  <button onclick="startSpeech()">🎤 Voice Input</button>
+  <button onclick="speakSelection()">🔊 Read Selected Text</button>
+</div>
+
+<div style="margin-top:0.8rem;">
+  <button onclick="quickAsk('Explain the Great Vowel Shift')">Great Vowel Shift</button>
+  <button onclick="quickAsk('Why did French influence Middle English?')">Norman French</button>
+  <button onclick="quickAsk('How did English become a global language?')">Global English</button>
+</div>
+
+<div id="answer" class="output"></div>
+</section>
+
+<!-- ================= Units ================= -->
+<section class="unit">
+<h2>Unit 1 · Before English / 史前英语</h2>
+<p class="en">
+Before English emerged, Britain was dominated by Celtic languages.
+Roman occupation introduced Latin, influencing place names and vocabulary.
+</p>
+<p class="cn">
+在英语出现之前，不列颠群岛主要使用凯尔特语。
+罗马统治将拉丁语引入当地，并在地名与词汇层面留下深远影响。
+</p>
+</section>
+
+<section class="unit">
+<h2>Unit 2 · Old English (450–1100)</h2>
+<p class="en">
+Old English developed from Germanic dialects spoken by the Angles, Saxons,
+and Jutes. It was highly inflected and structurally complex.
+</p>
+<p class="cn">
+古英语源自盎格鲁人、撒克逊人和朱特人的日耳曼方言，
+其形态变化丰富，与现代英语差异极大。
+</p>
+</section>
+
+<section class="unit">
+<h2>Unit 3 · Middle English (1100–1500)</h2>
+<p class="en">
+After 1066, Norman French reshaped English vocabulary, law, and culture.
+</p>
+<p class="cn">
+1066 年诺曼征服后，大量法语词汇进入英语，
+对法律、行政和文化产生深刻影响。
+</p>
+</section>
+
+<section class="unit">
+<h2>Unit 4 · Early Modern English (1500–1700)</h2>
+<p class="en">
+The Great Vowel Shift and the printing press stabilized English and expanded
+its expressive range.
+</p>
+<p class="cn">
+元音大推移与印刷术的普及，使英语在语音和书面形式上逐渐定型。
+</p>
+</section>
+
+<section class="unit">
+<h2>Unit 5 · Modern English (1700–present)</h2>
+<p class="en">
+Industrialization, colonial expansion, and globalization transformed English
+into a world language.
+</p>
+<p class="cn">
+工业化、殖民扩张与全球化进程，使英语发展为全球性语言。
+</p>
+</section>
+
+<section class="unit">
+<h2>Unit 6 · World Englishes / 全球英语</h2>
+<p class="en">
+Today, English exists in multiple localized forms, reflecting diverse cultures.
+</p>
+<p class="cn">
+当代英语呈现出多种本地化变体，体现不同文化与社会背景。
+</p>
+</section>
+
+</main>
+
+<footer>
+© English History Online Course · Academic Use
+</footer>
+
+<script>
+function setLang(lang) {
+  document.querySelectorAll(".en").forEach(e => e.style.display = lang === "en" ? "block" : "none");
+  document.querySelectorAll(".cn").forEach(e => e.style.display = lang === "cn" ? "block" : "none");
+}
+
+/* ===== TTS ===== */
+function speakSelection() {
+  const text = window.getSelection().toString();
+  if (!text) return alert("Please select text first.");
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "en-US";
+  speechSynthesis.speak(u);
+}
+
+/* ===== Speech Input ===== */
+function startSpeech() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) return alert("Speech recognition not supported.");
+  const rec = new SpeechRecognition();
+  rec.lang = "en-US";
+  rec.onresult = e => {
+    document.getElementById("question").value = e.results[0][0].transcript;
+  };
+  rec.start();
+}
+
+/* ===== DeepSeek ===== */
+async function askAI() {
+  const q = document.getElementById("question").value.trim();
+  if (!q) return;
+  document.getElementById("answer").innerText = "Thinking...";
+  const r = await fetch("/.netlify/functions/chat", {
+    method: "POST",
+    body: JSON.stringify({ question: q })
+  });
+  const data = await r.json();
+  document.getElementById("answer").innerText = data.answer || "No response.";
+}
+
+function quickAsk(q) {
+  document.getElementById("question").value = q;
+  askAI();
+}
+</script>
+
+</body>
+</html>
