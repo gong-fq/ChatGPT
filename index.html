@@ -102,25 +102,34 @@ async function askAI() {
 
   out.textContent = 'Thinking…';
 
-  try {
-    const res = await fetch('/.netlify/functions/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt: q })
+ try {
+    const response = await fetch("/.netlify/functions/chat", {
+      method: "POST", // 必须是 POST
+      headers: {
+        "Content-Type": "application/json", // 必须声明是 JSON 格式
+      },try {
+         const response = await fetch("/.netlify/functions/chat", {
+           method: "POST", // 必须是 POST
+           headers: {
+        "Content-Type": "application/json", // 必须声明是 JSON 格式
+      },
+      // 关键点：这里的键名必须叫 "question"
+      body: JSON.stringify({ question: userInput }), 
     });
+      // 关键点：这里的键名必须叫 "question"
+      body: JSON.stringify({ question: userInput }), 
+    });
+    const data = await response.json();
 
-    if (!res.ok) {
-      throw new Error('HTTP ' + res.status);
+if (response.ok) {
+      document.getElementById('response-box').innerText = data.answer;
+    } else {
+      console.error("Error:", data.answer);
     }
-
-    const data = await res.json();
-    out.textContent = data.reply || 'No reply field returned.';
-  } catch (err) {
-    out.textContent =
-      '⚠️ Error contacting Netlify Function:\n' + err.message;
+  } catch (error) {
+    console.error("Fetch error:", error);
   }
 }
-
 /* Voice Input */
 function startVoice() {
   if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
