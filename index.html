@@ -3,209 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>History of English Learning App</title>
+    <title>英语史学术研究系统 - 龚凤乾教授设计</title>
     <link rel="icon" href="data:,">
     <style>
         :root {
-            --primary-color: #2563eb;
-            --primary-hover: #1d4ed8;
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
+            --primary-color: #1a365d; /* 深学术蓝 */
+            --accent-color: #2b6cb0;
+            --sidebar-bg: #1e293b;
+            --bg-color: #f1f5f9;
         }
 
         body { 
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
-            line-height: 1.6; 
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            max-width: 900px; 
-            margin: 0 auto; 
-            padding: 40px 20px; 
+            font-family: 'Times New Roman', serif, "Microsoft YaHei"; 
+            margin: 0; display: flex; height: 100vh; background: var(--bg-color); 
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            animation: fadeIn 1s ease-in;
+        /* 左侧导航栏 */
+        .sidebar {
+            width: 280px; background: var(--sidebar-bg); color: white;
+            padding: 20px 0; overflow-y: auto; flex-shrink: 0;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.2);
         }
 
-        .header h1 { color: var(--primary-color); margin-bottom: 10px; font-size: 2.5rem; }
-        .header p { color: var(--text-muted); font-size: 1.1rem; }
+        .sidebar h3 { padding: 0 20px; color: #94a3b8; font-size: 0.9rem; text-transform: uppercase; }
 
-        .container { 
-            background: var(--card-bg);
-            padding: 30px; 
-            border-radius: 16px; 
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        .time-link {
+            display: block; padding: 12px 20px; color: #cbd5e1; text-decoration: none;
+            transition: all 0.2s; border-left: 4px solid transparent; cursor: pointer;
+            font-size: 0.95rem; line-height: 1.4;
         }
 
-        h2 { 
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.5rem;
-            margin-top: 0;
-            color: var(--text-main);
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 15px;
-        }
+        .time-link:hover { background: #334155; color: white; border-left-color: var(--accent-color); }
+        .time-link small { display: block; font-size: 0.75rem; color: #64748b; }
+
+        /* 主内容区 */
+        .main-content { flex-grow: 1; overflow-y: auto; padding: 40px; display: flex; flex-direction: column; gap: 30px; }
+
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+
+        h1 { margin-top: 0; color: var(--primary-color); border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
 
         textarea { 
-            width: 100%; 
-            height: 140px; 
-            padding: 15px; 
-            border: 2px solid #e2e8f0; 
-            border-radius: 12px; 
-            font-size: 16px; 
-            margin: 20px 0;
-            transition: border-color 0.3s;
-            resize: none;
-            outline: none;
+            width: 100%; height: 120px; padding: 15px; border: 2px solid #e2e8f0; 
+            border-radius: 8px; font-size: 1.1rem; margin: 15px 0; outline: none; box-sizing: border-box;
         }
 
-        textarea:focus { border-color: var(--primary-color); }
-
-        .button-group { display: flex; gap: 12px; margin-bottom: 25px; flex-wrap: wrap; }
-
+        .btn-group { display: flex; gap: 10px; }
         button { 
-            padding: 12px 24px; 
-            border: none; 
-            border-radius: 10px; 
-            cursor: pointer; 
-            font-weight: 600; 
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; 
+            border: none; transition: 0.3s; 
         }
-
-        .btn-primary { background-color: var(--primary-color); color: white; }
-        .btn-primary:hover { background-color: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); }
-        .btn-secondary { background-color: #f1f5f9; color: var(--text-main); }
-        .btn-secondary:hover { background-color: #e2e8f0; transform: translateY(-2px); }
+        .btn-ask { background: var(--accent-color); color: white; }
+        .btn-ask:hover { background: var(--primary-color); }
 
         #response-box { 
-            padding: 20px; 
-            background-color: #fdfdfd; 
-            border: 1px solid #e2e8f0;
-            border-left: 5px solid var(--primary-color); 
-            border-radius: 8px;
-            min-height: 80px; 
-            white-space: pre-wrap; 
-            font-size: 1.05rem;
-            color: #334155;
-            position: relative;
+            min-height: 150px; padding: 20px; background: #f8fafc; border-radius: 8px;
+            border: 1px solid #e2e8f0; white-space: pre-wrap; line-height: 1.8;
         }
 
-        /* 打字机光标效果 */
-        .typing::after {
-            content: '|';
-            animation: blink 0.7s infinite;
-            color: var(--primary-color);
-            margin-left: 2px;
-        }
+        /* 参考文献区 */
+        .references { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .ref-item { font-size: 0.9rem; padding: 15px; background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; }
+        .ref-item a { color: var(--accent-color); text-decoration: none; }
 
+        .typing::after { content: '|'; animation: blink 0.7s infinite; }
         @keyframes blink { 50% { opacity: 0; } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .footer { text-align: center; margin-top: 50px; color: var(--text-muted); font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>English History AI</h1>
-        <p>探索英语演变之美 · 由龚凤乾教授精心设计</p>
-    </div>
+    <nav class="sidebar">
+        <h3>Timeline of English / 英语史时间轴</h3>
+        <div onclick="fillInput('Pre-Roman & Celtic', 'Talk about the linguistic features of the Pre-Roman and Celtic period in Britain.')" class="time-link">Pre-Roman & Celtic<small>史前与凯尔特</small></div>
+        <div onclick="fillInput('Roman Britain', 'Explain the impact of Latin on Old English during Roman occupation.')" class="time-link">Roman Britain<small>罗马统治时期</small></div>
+        <div onclick="fillInput('Anglo-Saxon Era', 'What are the main characteristics of Old English during the Anglo-Saxon era?')" class="time-link">Anglo-Saxon Era<small>盎格鲁-撒克逊</small></div>
+        <div onclick="fillInput('The Middle Ages', 'Discuss the development of Middle English and its dialectal variations.')" class="time-link">The Middle Ages<small>中世纪盛期</small></div>
+        <div onclick="fillInput('The Tudors', 'How did the Tudor period influence the standardization of English?')" class="time-link">The Tudors<small>都铎王朝</small></div>
+        <div onclick="fillInput('Stuart Period', 'Analyze the Early Modern English during the Stuart reign.')" class="time-link">Stuart Period<small>斯图亚特王朝</small></div>
+        <div onclick="fillInput('Georgian Era', 'What linguistic shifts occurred during the Georgian era?')" class="time-link">Georgian Era<small>乔治时代</small></div>
+        <div onclick="fillInput('Victorian Era', 'Talk about the expansion of English vocabulary in the Victorian era.')" class="time-link">Victorian Era<small>维多利亚时代</small></div>
+        <div onclick="fillInput('Edwardian Era', 'Linguistic features of the early 20th century Edwardian era.')" class="time-link">Edwardian Era<small>爱德华时代</small></div>
+        <div onclick="fillInput('World Wars Era', 'How did the two World Wars impact the English language?')" class="time-link">World Wars Era<small>世界大战时期</small></div>
+        <div onclick="fillInput('Post-War Period', 'The rise of Global English in the post-war reconstruction.')" class="time-link">Post-War Period<small>战后重建</small></div>
+        <div onclick="fillInput('Thatcher Era', 'Social dialects and language change during the Thatcher era.')" class="time-link">Thatcher Era<small>撒切尔时代</small></div>
+        <div onclick="fillInput('Modern Britain', 'Current trends and multicultural influences in Modern British English.')" class="time-link">Modern Britain<small>现代英国</small></div>
+    </nav>
 
-    <div class="container">
-        <h2><span>🔍</span> 互动学习区 / Interactive Zone</h2>
-        
-        <textarea id="user-input" placeholder="请输入关于英语史的问题（如：什么是元音大推移？）..."></textarea>
+    <main class="main-content">
+        <div class="card">
+            <h1>Interactive Learning Zone / 互动学习区</h1>
+            <p style="color:#64748b">由龚凤乾教授精心设计，基于 DeepSeek AI 的英语史学术咨询系统。</p>
+            
+            <textarea id="user-input" placeholder="请选择左侧时期或在此输入您的学术问题..."></textarea>
 
-        <div class="button-group">
-            <button class="btn-primary" onclick="askAI()">🚀 发送提问</button>
-            <button class="btn-secondary" onclick="readText()">🔊 语音朗读</button>
-            <button class="btn-secondary" onclick="document.getElementById('user-input').value=''">🧹 清空内容</button>
+            <div class="btn-group">
+                <button class="btn-ask" onclick="askAI()">🚀 Ask DeepSeek</button>
+                <button onclick="readText()">🔊 Read (British RP)</button>
+            </div>
+
+            <h3 style="margin-top:25px">Response / 智能解析：</h3>
+            <div id="response-box">等待输入学术指令...</div>
         </div>
 
-        <div id="response-box">等待您的指令...</div>
-    </div>
-
-    <div class="footer">
-        © 2026 History of English Learning · Powered by DeepSeek AI
-    </div>
+        <div class="references">
+            <div class="ref-item">
+                <strong>📚 Classic References:</strong><br>
+                • Baugh & Cable: <i>A History of the English Language</i><br>
+                • David Crystal: <i>The Stories of English</i>
+            </div>
+            <div class="ref-item">
+                <strong>🌐 Online Resources:</strong><br>
+                • <a href="https://www.oed.com" target="_blank">Oxford English Dictionary (OED)</a><br>
+                • <a href="https://etymonline.com" target="_blank">Online Etymology Dictionary</a>
+            </div>
+        </div>
+    </main>
 
     <script>
-        // 模拟流式输出效果的函数
-        function typeWriter(text, elementId, speed = 30) {
-            const element = document.getElementById(elementId);
-            element.innerHTML = "";
-            element.classList.add('typing');
-            let i = 0;
-            
-            function type() {
-                if (i < text.length) {
-                    element.innerHTML += text.charAt(i);
-                    i++;
-                    setTimeout(type, speed);
-                    // 自动滚动到底部
-                    window.scrollTo(0, document.body.scrollHeight);
-                } else {
-                    element.classList.remove('typing');
-                }
-            }
-            type();
+        function fillInput(period, prompt) {
+            document.getElementById('user-input').value = prompt;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         async function askAI() {
-            const userInput = document.getElementById('user-input').value;
-            const responseBox = document.getElementById('response-box');
+            const input = document.getElementById('user-input').value;
+            const box = document.getElementById('response-box');
+            if(!input.trim()) return alert("Please enter a question.");
 
-            if (!userInput.trim()) {
-                alert("请输入问题！");
-                return;
-            }
-
-            responseBox.innerText = "正在思考中，请稍候...";
-            responseBox.classList.add('typing');
+            box.innerText = "Consulting academic archives...";
+            box.classList.add('typing');
 
             try {
-                const response = await fetch("/.netlify/functions/chat", {
+                const res = await fetch("/.netlify/functions/chat", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ question: userInput })
+                    body: JSON.stringify({ question: input })
                 });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    // 调用模拟流式显示
-                    typeWriter(data.answer, 'response-box');
-                } else {
-                    responseBox.classList.remove('typing');
-                    responseBox.innerText = "抱歉，出错了: " + (data.answer || "未知错误");
+                const data = await res.json();
+                
+                // 流式打字效果
+                let i = 0; box.innerText = "";
+                function type() {
+                    if(i < data.answer.length) {
+                        box.innerText += data.answer.charAt(i++);
+                        setTimeout(type, 20);
+                    } else { box.classList.remove('typing'); }
                 }
-            } catch (error) {
-                responseBox.classList.remove('typing');
-                responseBox.innerText = "无法连接到服务器，请检查网络。";
-            }
+                type();
+            } catch (e) { box.innerText = "Error fetching data."; }
         }
 
         function readText() {
-            const selection = window.getSelection().toString();
-            const textToRead = selection || document.getElementById('response-box').innerText;
+            const text = window.getSelection().toString() || document.getElementById('response-box').innerText;
+            if(!text || text.includes("Consulting")) return;
             
-            if (textToRead && !textToRead.includes("正在思考")) {
-                const utterance = new SpeechSynthesisUtterance(textToRead);
-                const hasChinese = /[\u4e00-\u9fa5]/.test(textToRead);
-                utterance.lang = hasChinese ? 'zh-CN' : 'en-US';
-                utterance.rate = 0.9;
-                window.speechSynthesis.cancel();
-                window.speechSynthesis.speak(utterance);
+            const utter = new SpeechSynthesisUtterance(text);
+            const hasChinese = /[\u4e00-\u9fa5]/.test(text);
+            
+            if(hasChinese) {
+                utter.lang = 'zh-CN';
+            } else {
+                // 设置为英式英语 (Standard British English)
+                utter.lang = 'en-GB'; 
+                // 寻找系统中的英式发音人
+                const voices = window.speechSynthesis.getVoices();
+                const gbVoice = voices.find(v => v.lang === 'en-GB' || v.name.includes('United Kingdom'));
+                if(gbVoice) utter.voice = gbVoice;
             }
+            
+            utter.rate = 0.85; // 稍微减慢语速，体现学术严谨感
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(utter);
         }
     </script>
 </body>
