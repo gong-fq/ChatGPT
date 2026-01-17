@@ -91,18 +91,33 @@
         }
 
         // 朗读功能的简单实现
-        function readText() {
-            const selection = window.getSelection().toString();
-            const textToRead = selection || document.getElementById('response-box').innerText;
-            
-            if (textToRead && textToRead !== "No response.") {
-                const utterance = new SpeechSynthesisUtterance(textToRead);
-                utterance.lang = 'en-US';
-                window.speechSynthesis.speak(utterance);
-            } else {
-                alert("Nothing to read! Please select some text or wait for a response.");
-            }
+       // 修复后的语音朗读功能：支持中英双语自动切换
+function readText() {
+    // 获取选中的文字，如果没有选中，则获取回复框中的全部文字
+    const selection = window.getSelection().toString();
+    const textToRead = selection || document.getElementById('response-box').innerText;
+    
+    if (textToRead && textToRead !== "No response." && textToRead !== "Waiting for response... / 正在思考中...") {
+        const utterance = new SpeechSynthesisUtterance(textToRead);
+
+        // 核心逻辑：检测文本中是否包含中文字符
+        const hasChinese = /[\u4e00-\u9fa5]/.test(textToRead);
+        
+        if (hasChinese) {
+            utterance.lang = 'zh-CN'; // 如果有中文，使用中文发音
+            utterance.rate = 1.0;     // 语速设置
+        } else {
+            utterance.lang = 'en-US'; // 纯英文则继续使用英文发音
+            utterance.rate = 0.9;     // 英文语速稍微放慢一点点，方便学习
         }
+
+        // 停止当前正在进行的朗读（防止重叠），开始新朗读
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(utterance);
+    } else {
+        alert("Nothing to read! Please wait for a response or select some text.");
+    }
+}
     </script>
 </body>
 </html>
