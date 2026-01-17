@@ -1,161 +1,108 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <title>History of English · 英语史学习 App</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" href="data:,">
-
-  <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont;
-      background: #f4f7fb;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background: #1e3a8a;
-      color: #fff;
-      padding: 1.2rem;
-      text-align: center;
-    }
-    main {
-      max-width: 900px;
-      margin: auto;
-      padding: 1.5rem;
-      background: #fff;
-    }
-    textarea {
-      width: 100%;
-      min-height: 120px;
-      font-size: 1rem;
-      padding: 0.6rem;
-    }
-    button {
-      margin: 0.3rem;
-      padding: 0.5rem 0.9rem;
-      font-size: 0.95rem;
-      cursor: pointer;
-    }
-    #output {
-      margin-top: 1rem;
-      padding: 1rem;
-      border: 1px solid #ddd;
-      min-height: 120px;
-      white-space: pre-wrap;
-      background: #fafafa;
-    }
-    footer {
-      margin-top: 2rem;
-      font-size: 0.9rem;
-      color: #555;
-      text-align: center;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History of English Learning App</title>
+    <link rel="icon" href="data:,">
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }
+        .container { border: 1px solid #ddd; border-radius: 8px; padding: 20px; background-color: #fff; }
+        h2 { border-bottom: 2px solid #007bff; padding-bottom: 10px; }
+        textarea { width: 100%; height: 150px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 16px; margin-bottom: 10px; resize: vertical; }
+        .button-group { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        button { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; background-color: #f0f0f0; border: 1px solid #ccc; transition: all 0.2s; }
+        button:hover { background-color: #e0e0e0; }
+        .btn-primary { background-color: #007bff; color: white; border: none; }
+        .btn-primary:hover { background-color: #0056b3; }
+        #response-box { padding: 15px; background-color: #f8f9fa; border-left: 4px solid #007bff; min-height: 50px; white-space: pre-wrap; margin-top: 10px; }
+        .footer { text-align: center; margin-top: 40px; font-size: 0.9em; color: #666; }
+    </style>
 </head>
-
 <body>
 
-<header>
-  <h1>History of the English Language</h1>
-  <p>英语史双语学习 App</p>
-</header>
+    <div class="header">
+        <p>This interactive app introduces the historical development of English. 本应用系统讲解英语从史前阶段到全球英语的发展历程。</p>
+        <p><strong>由龚凤乾教授精心设计</strong></p>
+    </div>
 
-<main>
+    <div class="container">
+        <h2>Interactive Learning Zone / 互动学习区</h2>
+        
+        <textarea id="user-input" placeholder="Ask any academic question about the history of English..."></textarea>
 
-  <p>
-    This interactive app introduces the historical development of English,
-    from prehistoric Indo-European roots to Global English today.
-    <br />
-    本应用系统讲解英语从史前阶段到全球英语的发展历程。
-  </p>
+        <div class="button-group">
+            <button class="btn-primary" onclick="askAI()">📘 Ask DeepSeek</button>
+            <button onclick="alert('Voice input feature coming soon!')">🎤 Voice Input</button>
+            <button onclick="readText()">🔊 Read Selected Text</button>
+        </div>
 
-  <p><strong>由龚凤乾教授精心设计</strong></p>
+        <div id="response-box">No response.</div>
+    </div>
 
-  <h2>Interactive Learning Zone / 互动学习区</h2>
+    <div class="footer">
+        © History of English Learning App · Netlify + DeepSeek
+    </div>
 
-  <textarea id="question">Explain the Great Vowel Shift</textarea>
+    <script>
+        // 定义 AI 询问函数
+        async function askAI() {
+            const userInput = document.getElementById('user-input').value;
+            const responseBox = document.getElementById('response-box');
 
-  <div>
-    <button onclick="askAI()">📘 Ask DeepSeek</button>
-    <button onclick="startVoice()">🎤 Voice Input</button>
-    <button onclick="readText()">🔊 Read Selected Text</button>
-  </div>
+            if (!userInput.trim()) {
+                alert("Please enter a question! / 请输入问题！");
+                return;
+            }
 
-  <div id="output">Waiting for response…</div>
+            // 更新 UI 状态
+            responseBox.innerText = "Waiting for response... / 正在思考中...";
 
-</main>
+            try {
+                // 发起 POST 请求到 Netlify Function
+                const response = await fetch("/.netlify/functions/chat", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    // 这里发送的数据结构必须与 chat.js 里的 JSON.parse 对应
+                    body: JSON.stringify({ question: userInput })
+                });
 
-<footer>
-  © History of English Learning App · Netlify + DeepSeek
-</footer>
+                // 检查 HTTP 状态码
+                if (!response.ok) {
+                    const errorMsg = await response.text();
+                    throw new Error(`HTTP ${response.status}: ${errorMsg}`);
+                }
 
-<script>
-async function askAI() {
-  const q = document.getElementById('question').value.trim();
-  const out = document.getElementById('output');
+                const data = await response.json();
 
-  if (!q) {
-    out.textContent = 'Please enter a question.';
-    return;
-  }
+                // 显示结果
+                if (data.answer) {
+                    responseBox.innerText = data.answer;
+                } else {
+                    responseBox.innerText = "Error: Invalid response format from server.";
+                }
 
-  out.textContent = 'Thinking…';
+            } catch (error) {
+                console.error("Fetch Error:", error);
+                responseBox.innerText = "Error contacting server: " + error.message;
+            }
+        }
 
- try {
-    const response = await fetch("/.netlify/functions/chat", {
-      method: "POST", // 必须是 POST
-      headers: {
-        "Content-Type": "application/json", // 必须声明是 JSON 格式
-      },try {
-         const response = await fetch("/.netlify/functions/chat", {
-           method: "POST", // 必须是 POST
-           headers: {
-        "Content-Type": "application/json", // 必须声明是 JSON 格式
-      },
-      // 关键点：这里的键名必须叫 "question"
-      body: JSON.stringify({ question: userInput }), 
-    });
-      // 关键点：这里的键名必须叫 "question"
-      body: JSON.stringify({ question: userInput }), 
-    });
-    const data = await response.json();
-
-if (response.ok) {
-      document.getElementById('response-box').innerText = data.answer;
-    } else {
-      console.error("Error:", data.answer);
-    }
-  } catch (error) {
-    console.error("Fetch error:", error);
-  }
-}
-/* Voice Input */
-function startVoice() {
-  if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
-    alert('Speech recognition not supported in this browser.');
-    return;
-  }
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  const rec = new SR();
-  rec.lang = 'en-US';
-  rec.onresult = e => {
-    document.getElementById('question').value =
-      e.results[0][0].transcript;
-  };
-  rec.start();
-}
-
-/* TTS */
-function readText() {
-  const sel = window.getSelection().toString() ||
-              document.getElementById('output').textContent;
-  if (!sel) return;
-  const ut = new SpeechSynthesisUtterance(sel);
-  ut.lang = 'en-US';
-  speechSynthesis.speak(ut);
-}
-</script>
-
+        // 朗读功能的简单实现
+        function readText() {
+            const selection = window.getSelection().toString();
+            const textToRead = selection || document.getElementById('response-box').innerText;
+            
+            if (textToRead && textToRead !== "No response.") {
+                const utterance = new SpeechSynthesisUtterance(textToRead);
+                utterance.lang = 'en-US';
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert("Nothing to read! Please select some text or wait for a response.");
+            }
+        }
+    </script>
 </body>
 </html>
