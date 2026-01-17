@@ -1,66 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>History of English | 英语发展史</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f9fafb;
-      color: #222;
-      line-height: 1.7;
-    }
-    header {
-      background: #1e3a8a;
-      color: #fff;
-      padding: 1.5rem;
-      text-align: center;
-    }
-    header small {
-      display: block;
-      margin-top: 0.5rem;
-      opacity: 0.9;
-    }
-    main {
-      max-width: 900px;
-      margin: auto;
-      padding: 1.5rem;
-      background: #fff;
-    }
-    h2 {
-      border-bottom: 2px solid #e5e7eb;
-      padding-bottom: 0.3rem;
-      margin-top: 2.5rem;
-    }
-    .toggle {
-      text-align: right;
-      margin-bottom: 1rem;
-    }
-    button {
-      padding: 0.4rem 0.7rem;
-      margin-left: 0.3rem;
-      cursor: pointer;
-    }
-    .cn { display: none; }
-    .controls {
-      margin: 1rem 0;
-      padding: 1rem;
-      background: #f1f5f9;
-    }
-    footer {
-      text-align: center;
-      padding: 1.5rem;
-      font-size: 0.9rem;
-      color: #555;
-    }
-  </style>
+<meta charset="UTF-8" />
+<title>History of English | 英语发展史</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<style>
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  margin: 0;
+  background: #f9fafb;
+  color: #222;
+  line-height: 1.7;
+}
+
+header {
+  background: #1e3a8a;
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+header small {
+  display: block;
+  margin-top: 0.5rem;
+  opacity: 0.9;
+}
+
+main {
+  max-width: 900px;
+  margin: auto;
+  background: white;
+  padding: 2rem;
+}
+
+h2 {
+  margin-top: 2.5rem;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 0.3rem;
+}
+
+.toggle {
+  text-align: right;
+  margin-bottom: 1rem;
+}
+
+button {
+  padding: 0.5rem 0.8rem;
+  margin: 0.2rem;
+  cursor: pointer;
+}
+
+.en { display: block; }
+.cn { display: none; }
+
+/* ===== 交互区重点样式 ===== */
+.interactive {
+  margin: 2.5rem 0;
+  padding: 1.5rem;
+  border: 2px solid #1e3a8a;
+  border-radius: 10px;
+  background: #f1f5ff;
+}
+
+.interactive textarea {
+  width: 100%;
+  min-height: 80px;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+}
+
+.output {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #ffffff;
+  border-left: 4px solid #1e3a8a;
+  white-space: pre-wrap;
+}
+
+footer {
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+</style>
 </head>
 
 <body>
+
 <header>
   <h1>History of the English Language</h1>
   <small>英语语言发展史 · 学术导览</small>
@@ -68,138 +96,104 @@
 </header>
 
 <main>
-  <div class="toggle">
-    Language:
-    <button onclick="setLang('en')">English</button>
-    <button onclick="setLang('cn')">中文</button>
-  </div>
 
-  <!-- 导语 -->
-  <section>
-    <h2>Introduction / 导语</h2>
-    <p class="en">
-      The history of English is a story of migration, conquest, contact, and
-      cultural transformation. English did not emerge fully formed; rather, it
-      evolved through centuries of interaction among peoples, languages, and
-      institutions.
-    </p>
-    <p class="cn">
-      英语的历史是一部关于迁徙、征服、语言接触与文化变迁的历史。英语并非一蹴而就，
-      而是在数个世纪中，通过不同民族、语言与社会制度的互动逐渐形成的。
-    </p>
-  </section>
+<div class="toggle">
+  Language:
+  <button onclick="setLang('en')">English</button>
+  <button onclick="setLang('cn')">中文</button>
+</div>
 
-  <!-- 史前英语 -->
-  <section>
-    <h2>Before English / 史前英语</h2>
-    <p class="en">
-      Before English existed, the British Isles were home to Celtic languages.
-      Later, Roman occupation introduced Latin, leaving lasting traces in place
-      names and early vocabulary.
-    </p>
-    <p class="cn">
-      在英语出现之前，不列颠群岛主要使用凯尔特语族语言。
-      随后的罗马统治将拉丁语引入当地，并在地名和词汇层面留下深刻影响。
-    </p>
-  </section>
+<!-- ================== 导语 ================== -->
+<section>
+<h2>Introduction / 导语</h2>
+<p class="en">
+The history of English is a story of migration, conquest, language contact,
+and cultural transformation.
+</p>
+<p class="cn">
+英语的历史是一部关于迁徙、征服、语言接触与文化变迁的历史。
+</p>
+</section>
 
-  <!-- 古英语 -->
-  <section>
-    <h2>Old English (c. 450–1100)</h2>
-    <p class="en">
-      Old English developed from the Germanic dialects brought by the Angles,
-      Saxons, and Jutes. It was highly inflected and largely unintelligible to
-      modern English speakers.
-    </p>
-    <p class="cn">
-      古英语源于盎格鲁人、撒克逊人和朱特人带来的日耳曼方言，
-      其形态变化复杂，与现代英语差异极大。
-    </p>
-  </section>
+<!-- ================== 交互学习区（前移） ================== -->
+<section class="interactive">
+<h2>Interactive Learning Zone / 互动学习区</h2>
 
-  <!-- 中古英语 -->
-  <section>
-    <h2>Middle English (c. 1100–1500)</h2>
-    <p class="en">
-      The Norman Conquest of 1066 introduced massive French influence, reshaping
-      English vocabulary, law, and culture.
-    </p>
-    <p class="cn">
-      1066 年诺曼征服后，大量法语词汇进入英语，
-      深刻影响了法律、行政和文化表达。
-    </p>
-  </section>
+<p class="en">Ask questions about the history of English, or use voice input.</p>
+<p class="cn">你可以通过文字或语音向 AI 询问任何英语史相关问题。</p>
 
-  <!-- 近代英语 -->
-  <section>
-    <h2>Early Modern English (c. 1500–1700)</h2>
-    <p class="en">
-      This period saw the Great Vowel Shift, the rise of printing, and the works
-      of Shakespeare, stabilizing grammar and expanding expressive power.
-    </p>
-    <p class="cn">
-      这一时期经历了元音大推移、印刷术普及以及莎士比亚的创作，
-      英语在语法和表现力上逐渐定型。
-    </p>
-  </section>
+<textarea id="question" placeholder="e.g. What is the Great Vowel Shift? / 什么是元音大推移？"></textarea>
 
-  <!-- 现代英语 -->
-  <section>
-    <h2>Modern English (1700–present)</h2>
-    <p class="en">
-      Modern English is shaped by industrialization, colonial expansion, and
-      global communication, becoming a world language.
-    </p>
-    <p class="cn">
-      现代英语受工业化、殖民扩张与全球传播影响，
-      已发展为全球通用语言。
-    </p>
-  </section>
+<div>
+  <button onclick="askAI()">🤖 Ask DeepSeek</button>
+  <button onclick="startSpeech()">🎤 Voice Input</button>
+  <button onclick="speakSelection()">🔊 Read Selected Text</button>
+</div>
 
-  <!-- 语音与 AI -->
-  <section class="controls">
-    <h2>Voice & AI Assistant</h2>
-    <button onclick="startSpeech()">🎤 Speech Input</button>
-    <button onclick="speakText()">🔊 Text to Speech</button>
-    <button onclick="askAI()">🤖 Ask DeepSeek</button>
-    <p id="result"></p>
-  </section>
+<div id="answer" class="output"></div>
+</section>
+
+<!-- ================== 史前英语 ================== -->
+<section>
+<h2>Before English / 史前英语</h2>
+<p class="en">
+Before English existed, Celtic languages dominated Britain. Roman rule
+introduced Latin, influencing place names and early vocabulary.
+</p>
+<p class="cn">
+在英语出现之前，不列颠群岛主要使用凯尔特语。
+罗马统治将拉丁语引入当地。
+</p>
+</section>
+
+<!-- 其余历史阶段你已有内容，可继续向下 -->
+
 </main>
 
 <footer>
-  © English History Learning App · Academic Reference Version
+© Academic English History App · Educational Use
 </footer>
 
 <script>
-  function setLang(lang) {
-    document.querySelectorAll(".en").forEach(e => e.style.display = lang === "en" ? "block" : "none");
-    document.querySelectorAll(".cn").forEach(e => e.style.display = lang === "cn" ? "block" : "none");
-  }
+function setLang(lang) {
+  document.querySelectorAll(".en").forEach(e => e.style.display = lang === "en" ? "block" : "none");
+  document.querySelectorAll(".cn").forEach(e => e.style.display = lang === "cn" ? "block" : "none");
+}
 
-  function speakText() {
-    const text = window.getSelection().toString() || document.body.innerText.slice(0, 300);
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = "en-US";
-    speechSynthesis.speak(utterance);
-  }
+/* ===== TTS ===== */
+function speakSelection() {
+  const text = window.getSelection().toString();
+  if (!text) return alert("Please select text first.");
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "en-US";
+  speechSynthesis.speak(u);
+}
 
-  function startSpeech() {
-    const rec = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-    rec.lang = "en-US";
-    rec.onresult = e => document.getElementById("result").innerText = e.results[0][0].transcript;
-    rec.start();
-  }
+/* ===== 语音输入 ===== */
+function startSpeech() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) return alert("Speech recognition not supported.");
+  const rec = new SpeechRecognition();
+  rec.lang = "en-US";
+  rec.onresult = e => {
+    document.getElementById("question").value = e.results[0][0].transcript;
+  };
+  rec.start();
+}
 
-  async function askAI() {
-    const q = prompt("Ask about English history:");
-    if (!q) return;
-    const r = await fetch("/.netlify/functions/chat", {
-      method: "POST",
-      body: JSON.stringify({ question: q })
-    });
-    const data = await r.json();
-    alert(data.answer);
-  }
+/* ===== DeepSeek ===== */
+async function askAI() {
+  const q = document.getElementById("question").value.trim();
+  if (!q) return;
+  document.getElementById("answer").innerText = "Thinking...";
+  const r = await fetch("/.netlify/functions/chat", {
+    method: "POST",
+    body: JSON.stringify({ question: q })
+  });
+  const data = await r.json();
+  document.getElementById("answer").innerText = data.answer || "No response.";
+}
 </script>
+
 </body>
 </html>
