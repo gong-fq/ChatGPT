@@ -1,36 +1,20 @@
-// 注意：无需在顶部引入 node-fetch，Netlify Node.js 18+ 环境已内置 fetch
-
 exports.handler = async function (event) {
   try {
-    // 1. 仅允许 POST 请求
     if (event.httpMethod !== "POST") {
-      return {
-        statusCode: 405,
-        body: JSON.stringify({ answer: "仅支持 POST 请求" })
-      };
+      return { statusCode: 405, body: JSON.stringify({ answer: "仅支持 POST" }) };
     }
 
-    // 2. 解析前端传来的问题
     const { question } = JSON.parse(event.body || "{}");
-
-    if (!question) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ answer: "没有接收到问题，请重新输入。" })
-      };
-    }
-
-    // 3. 检查环境变量
     const apiKey = process.env.DEEPSEEK_API_KEY;
+
     if (!apiKey) {
-      console.error("错误：未在 Netlify 后台配置 DEEPSEEK_API_KEY 环境变量");
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ answer: "服务器配置错误：缺少 API Key。" })
-      };
+      return { statusCode: 500, body: JSON.stringify({ answer: "API Key 未配置" }) };
     }
 
-    // 4. 调用 DeepSeek API
+    // 设置一个控制器，如果请求太久没反应就主动断开
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 9500); // 9.5秒自断，留点时间给系统返回
+
     const response = await fetch("https://api.deepseek.com/chat/completions", {
       method: "POST",
       headers: {
@@ -42,49 +26,45 @@ exports.handler = async function (event) {
         messages: [
           {
             role: "system",
-            content: "You are an academic expert in the history of the English language. Answer clearly and rigorously."
+            content: "You are an expert in the history of English. Please give a brief and concise answer (under 150 words)."
           },
           { role: "user", content: question }
         ],
-        stream: false // 确保不开启流式，以适配 Netlify Function 的简单返回模式
-      })
+        max_tokens: 500, // 限制生成长度，加快响应速度
+        stream: false
+      }),
+      signal: controller.signal
     });
 
-    // 5. 检查 API 响应状态
+    clearTimeout(timeoutId);
+
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error("DeepSeek API 返回错误:", errorText);
       return {
         statusCode: response.status,
-        body: JSON.stringify({ 
-          answer: "DeepSeek 服务繁忙或调用出错，请稍后再试。",
-          details: errorText 
-        })
+        body: JSON.stringify({ answer: "DeepSeek API 响应异常，请稍后再试。" })
       };
     }
 
     const data = await response.json();
-
-    // 6. 成功返回结果
     return {
       statusCode: 200,
-      headers: {
-        "Content-Type": "application/json; charset=utf-8"
-      },
+      headers: { "Content-Type": "application/json; charset=utf-8" },
       body: JSON.stringify({
-        answer: data.choices?.[0]?.message?.content || "AI 没能给出有效的回复。"
+        answer: data.choices?.[0]?.message?.content || "AI 未能生成有效回复。"
       })
     };
 
   } catch (err) {
-    // 捕获代码逻辑错误
-    console.error("云函数执行崩溃:", err.message);
+    console.error("Error:", err.name);
+    if (err.name === 'AbortError') {
+      return {
+        statusCode: 504,
+        body: JSON.stringify({ answer: "抱歉，DeepSeek 响应太慢，已超过 Netlify 的 10 秒限制。请稍后重试或尝试更简短的问题。" })
+      };
+    }
     return {
       statusCode: 500,
-      body: JSON.stringify({ 
-        answer: "服务器内部错误，请检查 Netlify Function 日志。",
-        error: err.message 
-      })
+      body: JSON.stringify({ answer: "服务器内部错误", error: err.message })
     };
   }
 };
