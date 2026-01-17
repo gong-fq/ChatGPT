@@ -6,118 +6,207 @@
     <title>History of English Learning App</title>
     <link rel="icon" href="data:,">
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }
-        .container { border: 1px solid #ddd; border-radius: 8px; padding: 20px; background-color: #fff; }
-        h2 { border-bottom: 2px solid #007bff; padding-bottom: 10px; }
-        textarea { width: 100%; height: 150px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 16px; margin-bottom: 10px; resize: vertical; }
-        .button-group { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-        button { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; background-color: #f0f0f0; border: 1px solid #ccc; transition: all 0.2s; }
-        button:hover { background-color: #e0e0e0; }
-        .btn-primary { background-color: #007bff; color: white; border: none; }
-        .btn-primary:hover { background-color: #0056b3; }
-        #response-box { padding: 15px; background-color: #f8f9fa; border-left: 4px solid #007bff; min-height: 50px; white-space: pre-wrap; margin-top: 10px; }
-        .footer { text-align: center; margin-top: 40px; font-size: 0.9em; color: #666; }
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            line-height: 1.6; 
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            max-width: 900px; 
+            margin: 0 auto; 
+            padding: 40px 20px; 
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .header h1 { color: var(--primary-color); margin-bottom: 10px; font-size: 2.5rem; }
+        .header p { color: var(--text-muted); font-size: 1.1rem; }
+
+        .container { 
+            background: var(--card-bg);
+            padding: 30px; 
+            border-radius: 16px; 
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 { 
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            margin-top: 0;
+            color: var(--text-main);
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
+        }
+
+        textarea { 
+            width: 100%; 
+            height: 140px; 
+            padding: 15px; 
+            border: 2px solid #e2e8f0; 
+            border-radius: 12px; 
+            font-size: 16px; 
+            margin: 20px 0;
+            transition: border-color 0.3s;
+            resize: none;
+            outline: none;
+        }
+
+        textarea:focus { border-color: var(--primary-color); }
+
+        .button-group { display: flex; gap: 12px; margin-bottom: 25px; flex-wrap: wrap; }
+
+        button { 
+            padding: 12px 24px; 
+            border: none; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            font-weight: 600; 
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-primary { background-color: var(--primary-color); color: white; }
+        .btn-primary:hover { background-color: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); }
+        .btn-secondary { background-color: #f1f5f9; color: var(--text-main); }
+        .btn-secondary:hover { background-color: #e2e8f0; transform: translateY(-2px); }
+
+        #response-box { 
+            padding: 20px; 
+            background-color: #fdfdfd; 
+            border: 1px solid #e2e8f0;
+            border-left: 5px solid var(--primary-color); 
+            border-radius: 8px;
+            min-height: 80px; 
+            white-space: pre-wrap; 
+            font-size: 1.05rem;
+            color: #334155;
+            position: relative;
+        }
+
+        /* 打字机光标效果 */
+        .typing::after {
+            content: '|';
+            animation: blink 0.7s infinite;
+            color: var(--primary-color);
+            margin-left: 2px;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footer { text-align: center; margin-top: 50px; color: var(--text-muted); font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <p>This interactive app introduces the historical development of English. 本应用系统讲解英语从史前阶段到全球英语的发展历程。</p>
-        <p><strong>由龚凤乾教授精心设计</strong></p>
+        <h1>English History AI</h1>
+        <p>探索英语演变之美 · 由龚凤乾教授精心设计</p>
     </div>
 
     <div class="container">
-        <h2>Interactive Learning Zone / 互动学习区</h2>
+        <h2><span>🔍</span> 互动学习区 / Interactive Zone</h2>
         
-        <textarea id="user-input" placeholder="Ask any academic question about the history of English..."></textarea>
+        <textarea id="user-input" placeholder="请输入关于英语史的问题（如：什么是元音大推移？）..."></textarea>
 
         <div class="button-group">
-            <button class="btn-primary" onclick="askAI()">📘 Ask DeepSeek</button>
-            <button onclick="alert('Voice input feature coming soon!')">🎤 Voice Input</button>
-            <button onclick="readText()">🔊 Read Selected Text</button>
+            <button class="btn-primary" onclick="askAI()">🚀 发送提问</button>
+            <button class="btn-secondary" onclick="readText()">🔊 语音朗读</button>
+            <button class="btn-secondary" onclick="document.getElementById('user-input').value=''">🧹 清空内容</button>
         </div>
 
-        <div id="response-box">No response.</div>
+        <div id="response-box">等待您的指令...</div>
     </div>
 
     <div class="footer">
-        © History of English Learning App · Netlify + DeepSeek
+        © 2026 History of English Learning · Powered by DeepSeek AI
     </div>
 
     <script>
-        // 定义 AI 询问函数
+        // 模拟流式输出效果的函数
+        function typeWriter(text, elementId, speed = 30) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = "";
+            element.classList.add('typing');
+            let i = 0;
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                    // 自动滚动到底部
+                    window.scrollTo(0, document.body.scrollHeight);
+                } else {
+                    element.classList.remove('typing');
+                }
+            }
+            type();
+        }
+
         async function askAI() {
             const userInput = document.getElementById('user-input').value;
             const responseBox = document.getElementById('response-box');
 
             if (!userInput.trim()) {
-                alert("Please enter a question! / 请输入问题！");
+                alert("请输入问题！");
                 return;
             }
 
-            // 更新 UI 状态
-            responseBox.innerText = "Waiting for response... / 正在思考中...";
+            responseBox.innerText = "正在思考中，请稍候...";
+            responseBox.classList.add('typing');
 
             try {
-                // 发起 POST 请求到 Netlify Function
                 const response = await fetch("/.netlify/functions/chat", {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    // 这里发送的数据结构必须与 chat.js 里的 JSON.parse 对应
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ question: userInput })
                 });
 
-                // 检查 HTTP 状态码
-                if (!response.ok) {
-                    const errorMsg = await response.text();
-                    throw new Error(`HTTP ${response.status}: ${errorMsg}`);
-                }
-
                 const data = await response.json();
 
-                // 显示结果
-                if (data.answer) {
-                    responseBox.innerText = data.answer;
+                if (response.ok) {
+                    // 调用模拟流式显示
+                    typeWriter(data.answer, 'response-box');
                 } else {
-                    responseBox.innerText = "Error: Invalid response format from server.";
+                    responseBox.classList.remove('typing');
+                    responseBox.innerText = "抱歉，出错了: " + (data.answer || "未知错误");
                 }
-
             } catch (error) {
-                console.error("Fetch Error:", error);
-                responseBox.innerText = "Error contacting server: " + error.message;
+                responseBox.classList.remove('typing');
+                responseBox.innerText = "无法连接到服务器，请检查网络。";
             }
         }
 
-        // 朗读功能的简单实现
-       // 修复后的语音朗读功能：支持中英双语自动切换
-function readText() {
-    // 获取选中的文字，如果没有选中，则获取回复框中的全部文字
-    const selection = window.getSelection().toString();
-    const textToRead = selection || document.getElementById('response-box').innerText;
-    
-    if (textToRead && textToRead !== "No response." && textToRead !== "Waiting for response... / 正在思考中...") {
-        const utterance = new SpeechSynthesisUtterance(textToRead);
-
-        // 核心逻辑：检测文本中是否包含中文字符
-        const hasChinese = /[\u4e00-\u9fa5]/.test(textToRead);
-        
-        if (hasChinese) {
-            utterance.lang = 'zh-CN'; // 如果有中文，使用中文发音
-            utterance.rate = 1.0;     // 语速设置
-        } else {
-            utterance.lang = 'en-US'; // 纯英文则继续使用英文发音
-            utterance.rate = 0.9;     // 英文语速稍微放慢一点点，方便学习
+        function readText() {
+            const selection = window.getSelection().toString();
+            const textToRead = selection || document.getElementById('response-box').innerText;
+            
+            if (textToRead && !textToRead.includes("正在思考")) {
+                const utterance = new SpeechSynthesisUtterance(textToRead);
+                const hasChinese = /[\u4e00-\u9fa5]/.test(textToRead);
+                utterance.lang = hasChinese ? 'zh-CN' : 'en-US';
+                utterance.rate = 0.9;
+                window.speechSynthesis.cancel();
+                window.speechSynthesis.speak(utterance);
+            }
         }
-
-        // 停止当前正在进行的朗读（防止重叠），开始新朗读
-        window.speechSynthesis.cancel();
-        window.speechSynthesis.speak(utterance);
-    } else {
-        alert("Nothing to read! Please wait for a response or select some text.");
-    }
-}
     </script>
 </body>
 </html>
